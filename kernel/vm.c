@@ -306,9 +306,11 @@ copyuvm(pde_t *pgdir, uint sz)
 
   if((d = setupkvm()) == 0)
     return 0;
-  for(i = 0; i < sz; i += PGSIZE){
+  for(i=PGSIZE; i < sz; i += PGSIZE){
+	  //reads the linear virtual address (i) and returns the address of the page table entry
     if((pte = walkpgdir(pgdir, (void*)i, 0)) == 0)
       panic("copyuvm: pte should exist");
+//    cprintf("address of pte give by VA(%d):%d\n", i, *pte); //TODO: remove
     if(!(*pte & PTE_P))
       panic("copyuvm: page not present");
     pa = PTE_ADDR(*pte);
