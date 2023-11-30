@@ -1,6 +1,6 @@
 #ifndef _USER_H_
 #define _USER_H_
-
+#include "types.h"
 struct stat;
 
 // system calls
