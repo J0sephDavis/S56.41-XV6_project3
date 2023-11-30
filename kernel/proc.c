@@ -46,16 +46,6 @@ found:
   p->state = EMBRYO;
   p->pid = nextpid++;
   
-  /////// your code here//////////////////////////////
-  //initialize for all process the variable for number of tickets that you define in proc.h equal to 1
-  // initialize the number of times the process is scheudle in the cpu equal to 0
-  // p -> number of ticket =1
-  // p -> number of times schedule in the cpu =0
-  //get the names of these variables from proc.h 
-  /////////////////////////////////////////////////////
-
-
-
   release(&ptable.lock);
 
   // Allocate kernel stack if possible.
@@ -164,15 +154,6 @@ fork(void)
       np->ofile[i] = filedup(proc->ofile[i]);
   np->cwd = idup(proc->cwd);
  
-  ////your code here///// 
-  ////children inheritance the tickets from their parents//////
-  // proc is current process (i.e. parent)
-  ///np->number of tickets  = something like the parent -> number of tickets
-  ///get the exact the name fo number of tickets from proc.h the parent from the previous comment or some lines above
-  /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////		
-
-
- 
   pid = np->pid;
   np->state = RUNNABLE;
   safestrcpy(np->name, proc->name, sizeof(proc->name));
@@ -265,13 +246,6 @@ wait(void)
   }
 }
 
-
-
-
-
-
-
-
 // Per-CPU process scheduler.
 // Each CPU calls scheduler() after setting itself up.
 // Scheduler never returns.  It loops, doing:
@@ -287,21 +261,7 @@ scheduler(void)
   for(;;){
     // Enable interrupts on this processor.
     
-    ////your code here  add variables///////////
-    //add variable for the winner of the lotery
-    // int lotteryWinner =0; 
-    // int totaltickets =0;
-    //add any other variable you need for program
-    ///////////////////////////////////////////// 
-   
     sti();
-
-    
-    //////you can use it at any place //////////////////
-    /// compute thetotalTickets
-    // call your random number generator ///
-    //int lotteryWinner = rand() % totalTickets + 1;
-    //////////////////////////////////////////////
 
  
     // Loop over process table looking for process to run.
@@ -327,55 +287,6 @@ scheduler(void)
 
   }
 }
-
-/////////////// your code here  first system call //////////////////////////////////
-////Assign the tickets passed by the user to variable number of tickets of the process, 
-///check the name of this variable in proc.h
-///////////////////////////////////////////////////////////////////////////////////////
-//int assigntickets(int passTickets)
-//{
-	//make validation here, if you want 
-
-//	proc->variable ticket of the process  = passTickets;
-//	return 0;
-//}
-////////////////////////////////////////////////////////////////
-
-
-
-/////////////// your code here  second system call //////////////////////////////////////////////////////
-////fill the arrays of the pstat data structure with the information of the process 
-///check the name of this variable in proc.h
-///check the name of arrays of the LaTable in pstat, and the names of the varibles of the process in proc.h
-//READ THE ELEMENTS OF PSTAT IN THE DESCRIPTION OF THE PROJECT TO MAKE SENSE OF THISsaveInfo(
-///////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-//int saveInfo(struct pstat* LaTable)  //create a pointer able to point to object of the tpe pstat
-//{
-//	struct proc *p;   //Create a pointer able to point to objects of the type proc (process) 
-//	int i = 0; // used to iterate througt the slots of the arrays in pstat
-//	acquire(&ptable.lock);  //lock the ptable (array containing the process) 
-//	for(p = ptable.proc; p < &ptable.proc[NPROC]; p++){  // use p to iterate throght the ptable 
-//		if(p->state == ZOMBIE || p->state == EMBRYO){  //check the state of a process, if it is different of ZOMBY and EMBRIO 
-//			continue;
-//		}
-//		if(p->state == UNUSED){
-//			LaTable->inuse[i] = 0;  //check the name of the arrays in pstat. 
-//		}
-//		else{
-//			LaTable->inuse[i] = 1; 
-//		}
-//		LaTable->pid[i] = p-> //with the pid of the process p->
-//		LaTable->tickets[i] = p-> //with the number of ti
-//		LaTable->ticks[i] = p-> //with the number of time the process has runned in the cpu
-//		i++;
-//	}
-//	release(&ptable.lock);
-//	return 0;	
-//}
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
 
 // Enter scheduler.  Must hold only ptable.lock
 // and have changed proc->state.
