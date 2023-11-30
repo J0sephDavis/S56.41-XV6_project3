@@ -29,7 +29,7 @@ int null(int p)
 	int pid = fork();
 	if(pid < 0)
 	{
-		printf(1, "Fork failed. TEST FAILED!\n");
+		printf(1, "Fork failed. TEST No.1 FAILED!\n");
 		kill(getpid());
 		exit();
 	}
@@ -39,14 +39,14 @@ int null(int p)
 		printf(1, "null dereference: ");
 		printf(1, "%x %x\n", nullPtr, *nullPtr);
 		// this process should be killed. If not, then the test failed.
-		printf(1, "TEST FAILED!\n");
+		printf(1, "TEST No.1 FAILED!\n");
 		kill(p);
 		exit();
 	}
 	else
 	{
 		wait();
-		printf(1, "TEST PASSED!\n");
+		printf(1, "TEST No.1 PASSED!\n");
 		return 0;
 	}
 }
@@ -56,7 +56,7 @@ int null2(int p)
 	int pid = fork();
 	if(pid < 0)
 	{
-		printf(1, "Fork failed. TEST FAILED!\n");
+		printf(1, "Fork failed. TEST No.2 FAILED!\n");
 		exit();
 	}
 	else if(pid == 0)
@@ -65,13 +65,13 @@ int null2(int p)
 		printf(1, "bad dereference (0x0fff): ");
 		printf(1, "%x %x\n", badPtr, *badPtr);
 		// this process should be killed. If not, then the test failed.
-		printf(1, "TEST FAILED!\n");
+		printf(1, "TEST No.2 FAILED!\n");
 		kill(p);
 		exit();
 	}
 	else
 		wait();
-	printf(1, "TEST PASSED!\n");
+	printf(1, "TEST No.2 PASSED!\n");
 	return 0;
 }
 
@@ -90,7 +90,7 @@ int bounds(int p)
 	// spanning null page and code
 	arg = (char*) 0xfff;
 	assert(write(fd, arg, 2) == -1);
-	printf(1, "TEST PASSED!\n");
+	printf(1, "TEST No.3 PASSED!\n");
 	return 0;
 }
 
